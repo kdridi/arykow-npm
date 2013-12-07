@@ -24,12 +24,12 @@ var arykow = {
     test.ifError(value)
 */
 
-exports['list'] = {
+exports['search'] = {
   setUp: function(done) {
     done();
   },
-  'success': function(test) {
-    arykow.npm.list().addFilters('arykow', 'http').execute(function() {
+  'filtered with some terms': function(test) {
+    arykow.npm.search().addTerms('arykow', 'http').execute(function() {
       test.expect(6);
 
       var parameters = [];
@@ -49,8 +49,8 @@ exports['list'] = {
       test.done();
     });
   },
-  'failure': function(test) {
-    arykow.npm.list().execute(function() {
+  'all packages': function(test) {
+    arykow.npm.search().execute(function() {
       test.expect(5);
 
       var parameters = [];

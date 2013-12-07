@@ -7,14 +7,15 @@ Install the module with: `npm install arykow-npm`
 
 ```javascript
 var arykow = {
-  npm: require('../lib/arykow-npm.js')
+	npm: require('../lib/arykow-npm.js')
 };
-arykow.npm.list()
-	.addFilters('arykow')
-	.addFilters('http')
+
+arykow.npm.search()
+	.addTerms('arykow', 'http')
 	.execute(function(error, packages) {
-	console.log(packages);
+	doSomething(packages);
 });
+
 ```
 
 ## Documentation

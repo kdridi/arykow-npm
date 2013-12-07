@@ -1,6 +1,8 @@
 'use strict';
 
-var arykow_npm = require('../lib/arykow-npm.js');
+var arykow = {
+  npm: require('../lib/arykow-npm.js')
+};
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -22,15 +24,48 @@ var arykow_npm = require('../lib/arykow-npm.js');
     test.ifError(value)
 */
 
-exports['awesome'] = {
+exports['list'] = {
   setUp: function(done) {
-    // setup here
     done();
   },
-  'no args': function(test) {
-    test.expect(1);
-    // tests here
-    test.equal(arykow_npm.awesome(), 'awesome', 'should be awesome.');
-    test.done();
+  'success': function(test) {
+    arykow.npm.list().addFilters('arykow', 'http').execute(function() {
+      test.expect(6);
+
+      var parameters = [];
+      Array.prototype.push.apply(parameters, arguments);
+
+      test.notEqual(parameters.length, 0, 'error should be defined.');
+      var error = parameters.shift();
+      test.equal(error, null, 'error should be null.');
+
+      test.notEqual(parameters.length, 0, 'result should be defined.');
+      var result = parameters.shift();
+      test.notEqual(result, null, 'result should not be null.');
+
+      test.equal(Object.keys(result).length, 1, '1 package should be listed.');
+
+      test.equal(parameters.length, 0, 'other parameters should not be defined.');
+      test.done();
+    });
+  },
+  'failure': function(test) {
+    arykow.npm.list().execute(function() {
+      test.expect(5);
+
+      var parameters = [];
+      Array.prototype.push.apply(parameters, arguments);
+
+      test.notEqual(parameters.length, 0, 'error should be defined.');
+      var error = parameters.shift();
+      test.equal(error, null, 'error should be null.');
+
+      test.notEqual(parameters.length, 0, 'result should be defined.');
+      var result = parameters.shift();
+      test.notEqual(result, null, 'result should not be null.');
+
+      test.equal(parameters.length, 0, 'other parameters should not be defined.');
+      test.done();
+    });
   },
 };

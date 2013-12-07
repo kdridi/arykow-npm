@@ -6,8 +6,15 @@ Arykow's NPM library
 Install the module with: `npm install arykow-npm`
 
 ```javascript
-var arykow_npm = require('arykow-npm');
-arykow_npm.awesome(); // "awesome"
+var arykow = {
+  npm: require('../lib/arykow-npm.js')
+};
+arykow.npm.list()
+	.addFilters('arykow')
+	.addFilters('http')
+	.execute(function(error, packages) {
+	console.log(packages);
+});
 ```
 
 ## Documentation
